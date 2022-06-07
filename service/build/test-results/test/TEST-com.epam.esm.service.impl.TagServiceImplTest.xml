@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.epam.esm.service.impl.TagServiceImplTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2022-05-23T09:17:43" hostname="MAX-PC" time="0.034">
+  <properties/>
+  <testcase name="create()" classname="com.epam.esm.service.impl.TagServiceImplTest" time="0.024"/>
+  <testcase name="delete()" classname="com.epam.esm.service.impl.TagServiceImplTest" time="0.002"/>
+  <testcase name="findAll()" classname="com.epam.esm.service.impl.TagServiceImplTest" time="0.002"/>
+  <testcase name="findById()" classname="com.epam.esm.service.impl.TagServiceImplTest" time="0.002"/>
+  <testcase name="findByNameNegative()" classname="com.epam.esm.service.impl.TagServiceImplTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
