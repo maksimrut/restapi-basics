@@ -4,6 +4,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
 
 public class ApplicationServletInitializer  extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
@@ -25,5 +26,10 @@ public class ApplicationServletInitializer  extends AbstractAnnotationConfigDisp
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
         servletContext.setInitParameter("spring.profiles.active", "prod");
+    }
+
+    @Override
+    public void customizeRegistration(ServletRegistration.Dynamic registration) {
+        registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
     }
 }

@@ -15,4 +15,11 @@ public class ColumnName {
     public static final String DURATION = "duration";
     public static final String CREATE_DATE = "createDate";
     public static final String LAST_UPDATE_DATE = "lastUpdateDate";
+
+    //gift_certificates table names
+    public static final String TAG_ID = "tagId";
+    public static final String TAG_NAME = "tagName";
+
+    private ColumnName() {
+    }
 }

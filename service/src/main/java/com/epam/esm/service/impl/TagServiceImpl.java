@@ -32,11 +32,10 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag create(Tag tag) throws ServiceException {
-        Tag addedTag = tagRepository.create(tag);
-        if (addedTag.getId() < 0) {
-            throw new ServiceException("The tag can not be added at the moment");
+        if (exist(tag)) {
+           throw new ServiceException(String.format("The tag with name %s is already exists", tag.getName()));
         }
-        return addedTag;
+        return tagRepository.create(tag);
     }
 
     @Override

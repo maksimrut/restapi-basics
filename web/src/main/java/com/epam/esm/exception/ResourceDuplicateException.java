@@ -1,5 +1,8 @@
 package com.epam.esm.exception;
 
+/**
+ * The type Resource duplicate exception.
+ */
 public class ResourceDuplicateException extends RuntimeException {
 
     private final String uniqueField;

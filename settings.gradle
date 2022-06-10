@@ -2,4 +2,3 @@ rootProject.name = 'restapi-core'
 include 'model'
 include 'web'
 include 'service'
-

@@ -2,9 +2,12 @@ package com.epam.esm.repository.mapper;
 
 import com.epam.esm.entity.GiftCertificate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static com.epam.esm.repository.mapper.ColumnName.*;
 
@@ -14,7 +17,9 @@ import static com.epam.esm.repository.mapper.ColumnName.*;
  *
  * @author Maksim Rutkouski
  */
+@Component
 public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd kk:mm:ss");
 
     @Override
     public GiftCertificate mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -24,8 +29,8 @@ public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
         certificate.setDescription(rs.getString(DESCRIPTION));
         certificate.setPrice(rs.getBigDecimal(PRICE));
         certificate.setDuration(rs.getInt(DURATION));
-        certificate.setCreateDate(rs.getTimestamp(CREATE_DATE).toLocalDateTime());
-        certificate.setLastUpdateDate(rs.getTimestamp(LAST_UPDATE_DATE).toLocalDateTime());
+        certificate.setCreateDate(LocalDateTime.parse(rs.getString(CREATE_DATE), FORMATTER));
+        certificate.setLastUpdateDate(LocalDateTime.parse(rs.getString(LAST_UPDATE_DATE), FORMATTER));
         return certificate;
     }
 }

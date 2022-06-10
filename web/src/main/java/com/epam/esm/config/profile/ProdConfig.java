@@ -14,11 +14,10 @@ import javax.sql.DataSource;
 @PropertySource("classpath:database.properties")
 public class ProdConfig {
 
-    private static final String DB_DRIVER = "db.driver";
+    private static final String DB_DRIVER = "db.driverClassName";
     private static final String DB_URL = "db.url";
-    private static final String DB_USER_NAME = "user";
-    private static final String DB_PASSWORD = "password";
-    private static final String INIT_POOL_SIZE = "initialSize";
+    private static final String DB_USER_NAME = "db.user";
+    private static final String DB_PASSWORD = "db.password";
 
     private final Environment environment;
 
@@ -28,18 +27,17 @@ public class ProdConfig {
     }
 
     @Bean
-    public DataSource dateSource() {
+    public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(DB_DRIVER);
-        dataSource.setUrl(DB_URL);
-        dataSource.setUsername(DB_USER_NAME);
-        dataSource.setPassword(DB_PASSWORD);
-        dataSource.setInitialSize(Integer.parseInt(environment.getProperty(INIT_POOL_SIZE)));
+        dataSource.setDriverClassName(environment.getProperty(DB_DRIVER));
+        dataSource.setUrl(environment.getProperty(DB_URL));
+        dataSource.setUsername(environment.getProperty(DB_USER_NAME));
+        dataSource.setPassword(environment.getProperty(DB_PASSWORD));
         return dataSource;
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dateSource());
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 }

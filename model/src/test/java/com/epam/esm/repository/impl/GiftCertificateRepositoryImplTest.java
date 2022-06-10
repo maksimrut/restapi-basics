@@ -64,7 +64,7 @@ class GiftCertificateRepositoryImplTest {
         certificate.get().setDuration(100);
         certificateRepository.update(1L, certificate.get());
         int expected = 100;
-        int actual = certificateRepository.findById(1l).get().getDuration();
+        int actual = certificateRepository.findById(1L).get().getDuration();
         assertEquals(expected, actual);
     }
 

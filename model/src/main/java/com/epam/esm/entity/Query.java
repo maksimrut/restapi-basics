@@ -10,21 +10,21 @@ public class Query {
     private String sortByName;
     private String sortByDate;
 
-    private static final String SELECT_FROM = "SELECT * FROM gift_certificates gc ";
-    private static final String SELECT_BY_TAG = """
-            JOIN tags_certificates tc ON gc.id=tc.gift_certificate_id
-            JOIN tags t ON t.id=tc.tag_id
-            WHERE t.name=?""";
+    private static final String SELECT_FROM = "SELECT gc.*, t.id AS tagId, t.name AS tagName " +
+            "FROM gift_certificates gc " +
+            "JOIN tags_certificates tc ON gc.id=tc.gift_certificate_id " +
+            "JOIN tags t ON t.id=tc.tag_id ";
+    private static final String SELECT_BY_TAG = "WHERE t.name=?";
     private static final String WHERE = "WHERE ";
     private static final String AND = "AND ";
-    private static final String SELECT_BY_PART_NAME = """
-            gc.name LIKE CONCAT('%', ?, '%')
-            OR gc.description LIKE CONCAT('%', ?, '%')""";
+    private static final String SELECT_BY_PART_NAME =
+            "gc.name LIKE CONCAT('%', ?, '%') " +
+            "OR gc.description LIKE CONCAT('%', ?, '%')";
     private static final String ORDER_BY = "ORDER BY ";
-    private static final String ORDER_BY_NAME = "gc.name";
+    private static final String ORDER_BY_NAME = "gc.name ";
     private static final String DESC = "DESC";
     private static final String COMMA_SIGN = ",";
-    private static final String ORDER_BY_DATE = "gc.createDate";
+    private static final String ORDER_BY_DATE = "gc.createDate ";
 
     private final List<String> params = new ArrayList<>();
     private final StringBuilder sqlQuery = new StringBuilder(SELECT_FROM);

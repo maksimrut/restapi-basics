@@ -29,10 +29,10 @@ public class GiftCertificate extends BaseEntity {
     @Max(value = 365, message = "Certificate duration should be less than 365 days")
     private Integer duration;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastUpdateDate;
 
     private Set<@Valid Tag> tags;
@@ -95,6 +95,10 @@ public class GiftCertificate extends BaseEntity {
 
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
+    }
+
+    public boolean addTag(Tag tag) {
+        return tags.add(tag);
     }
 
     @Override

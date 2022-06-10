@@ -22,10 +22,10 @@ public class TagRepositoryImpl implements TagRepository {
     private static final String SQL_CREATE = "INSERT INTO tags(name) VALUES(?)";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM tags WHERE id=?";
     private static final String SQL_FIND_BY_NAME = "SELECT id FROM tags WHERE name=?";
-    private static final String SQL_FIND_BY_CERTIFICATE_ID = """
-            SELECT t.id, t.name FROM tags t
-            JOIN tags_certificates tc ON t.id = tc.tag_id
-            WHERE tc.gift_certificate_id = ?""";
+    private static final String SQL_FIND_BY_CERTIFICATE_ID =
+            "SELECT t.id, t.name FROM tags t " +
+            "JOIN tags_certificates tc ON t.id = tc.tag_id " +
+            "WHERE tc.gift_certificate_id = ?";
     private static final Long RETURN_VALUE = -1L;
 
     private final JdbcTemplate jdbcTemplate;
@@ -55,7 +55,12 @@ public class TagRepositoryImpl implements TagRepository {
                     preparedStatement.setString(1, tag.getName());
                     return preparedStatement;
                 }, keyHolder);
-        long tagId = keyHolder.getKey() != null ? keyHolder.getKey().longValue() : RETURN_VALUE;
+        long tagId;
+        if (keyHolder.getKeys().size() > 1) {
+            tagId = ((Number) keyHolder.getKeys().get("id")).longValue();
+        } else {
+            tagId = keyHolder.getKey().longValue();
+        }
         tag.setId(tagId);
         return tag;
     }
@@ -74,6 +79,6 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public List<Tag> findAllByGiftCertificateId(Long id) {
-        return jdbcTemplate.query(SQL_FIND_BY_CERTIFICATE_ID, new BeanPropertyRowMapper<>(), id);
+        return jdbcTemplate.query(SQL_FIND_BY_CERTIFICATE_ID, new BeanPropertyRowMapper<>(Tag.class), id);
     }
 }

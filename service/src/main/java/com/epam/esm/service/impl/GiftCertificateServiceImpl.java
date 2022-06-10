@@ -53,8 +53,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public GiftCertificate create(GiftCertificate certificate) throws ServiceException {
         certificate.setId(null);
-        certificate.setCreateDate(LocalDateTime.now());
-        certificate.setLastUpdateDate(null);
         GiftCertificate createdCertificate = certificateRepository.create(certificate);
         if (certificate.getTags() != null) {
             addTags(createdCertificate.getId(), certificate.getTags());
@@ -74,7 +72,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         GiftCertificate updatedCertificate = certificateRepository.findById(id)
                 .orElseThrow(ServiceException::new);
         modelMapper.map(certificate, updatedCertificate);
-        updatedCertificate.setLastUpdateDate(LocalDateTime.now());
+        updatedCertificate.setLastUpdateDate(LocalDateTime.now().withNano(0));
         certificateRepository.clearTags(id);
         if (certificate.getTags() != null) {
             addTags(id, certificate.getTags());
@@ -95,7 +93,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     private void addTags(Long giftCertificateId, Set<Tag> tags) throws ServiceException {
         for (Tag tag : tags) {
-            if (tagService.exist(tag)){
+            if (!tagService.exist(tag)){
                 tagService.create(tag);
             }
             Long tagId = tagService.findByName(tag.getName());

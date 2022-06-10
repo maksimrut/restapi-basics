@@ -93,7 +93,7 @@ public class GiftCertificateController {
      * @param sortByName allow certificate sorting by a Name
      * @param sortByDate allow certificate sorting by a Date
      */
-    @GetMapping
+    @GetMapping("/query")
     public List<GiftCertificate> findAllByParams(@RequestParam(value = "tag", required = false) String tag,
                                                  @RequestParam(value = "partName", required = false) String partName,
                                                  @RequestParam(value = "sortByName", required = false) String sortByName,

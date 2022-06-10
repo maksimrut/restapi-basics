@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  * The type Exception controller.
@@ -34,8 +35,21 @@ public class ExceptionController {
      */
     @ExceptionHandler(CustomNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public CustomError notFound(CustomNotFoundException e) {
-        return new CustomError(40401, e.getMessage());
+    public CustomError notFoundResource(CustomNotFoundException e) {
+        String message = e.getResourceId() != null ?
+                "No such resource found, id=:" + e.getResourceId() : e.getMessage();
+        return new CustomError(40401, message);
+    }
+
+    /**
+     * Not found custom error.
+     *
+     * @return the custom error
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public CustomError notFoundHandler() {
+        return new CustomError(40402, "There is no such resource");
     }
 
     /**
